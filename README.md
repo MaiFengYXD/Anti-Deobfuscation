@@ -1,5 +1,7 @@
 # Anti-UnveilR-V2
 
+[![Try the full demo on Discord](https://img.shields.io/badge/Try_the_full_demo_on_Discord-%235865F2?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/Ar6je8fFBE)
+
 A mirror for my local project.
 
 This is an obfuscation bot built for **educational purposes only**. Uses the amazing [Prometheus](https://github.com/prometheus-lua/Prometheus) obfuscator.
