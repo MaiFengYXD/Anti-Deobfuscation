@@ -2,7 +2,7 @@
 
 A mirror for my local project.
 
-This is an obfuscation bot for educational purposes only. Uses the amazing [Prometheus](https://github.com/prometheus-lua/Prometheus) obfuscator.
+This is an obfuscation bot for **educational purposes only**. Uses the amazing [Prometheus](https://github.com/prometheus-lua/Prometheus) obfuscator.
 
 > [!NOTE]
 > You need to fill the `src/Templates` folder with your own detection template `.luau` files. I do not provide any detections to prevent them from being patched within a few minutes.
