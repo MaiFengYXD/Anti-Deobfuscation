@@ -1,6 +1,5 @@
 import "dotenv/config"
 
-import * as fs from "node:fs"
 import {
     Client,
     GatewayIntentBits,
@@ -48,33 +47,69 @@ DiscordClient.on(Events.InteractionCreate, async (Interaction) => {
 
     const Attachment = Interaction.options.getAttachment("file")!
 
-    try {
-        await Interaction.reply({
-            content: "⏳ In queue",
-            components: [],
-            flags: MessageFlags.Ephemeral,
-        })
+    const Row = new ActionRowBuilder<ButtonBuilder>().addComponents(
+        new ButtonBuilder().setCustomId("confirm_obfuscate").setLabel("Agree & Proceed").setStyle(ButtonStyle.Success),
+    )
+
+    const Response = await Interaction.reply({
+        content: `### ⚖️ Disclaimer\nThis bot is provided for **educational purposes only**. You can review the tool's source code at https://github.com/MaiFengYXD/Anti-UnveilR-V2.\nWe value your privacy: we **never** store any scripts sent to this service.`,
+        components: [Row],
+        flags: MessageFlags.Ephemeral,
+    })
+
+    const Collector = Response.createMessageComponentCollector({
+        componentType: ComponentType.Button,
+        time: 60000,
+    })
+
+    Collector.on("collect", async (ButtonInteraction) => {
+        if (ButtonInteraction.customId !== "confirm_obfuscate") return
 
         try {
-            const FinalFile = await Throttler.Enqueue(async () => {
-                await Interaction.editReply({
-                    content: "⏳ Interacting with Prometheus obfuscation...",
-                })
-                return await ProcessFile(Attachment.url, Attachment.name)
+            await ButtonInteraction.update({
+                content: "⏳ In queue...",
+                components: [],
             })
 
-            await Interaction.editReply({
-                content: "✅ Obfuscation complete.",
-                files: [FinalFile],
-            })
-        } catch (ProcessError: any) {
-            await Interaction.editReply({
-                content: `❌ Error: ${ProcessError.message?.slice(0, 200)}`,
-            })
+            try {
+                const FinalFile = await Throttler.Enqueue(
+                    ProcessFile,
+                    Attachment.url,
+                    Attachment.name,
+                    async (Content: string) => {
+                        try {
+                            await Interaction.editReply({
+                                content: Content,
+                            })
+                        } catch {}
+                    },
+                )
+
+                await Interaction.editReply({
+                    content: "✅ Obfuscation complete.",
+                    files: [FinalFile],
+                })
+            } catch (ProcessError: any) {
+                await Interaction.editReply({
+                    content: `❌ Error: ${ProcessError.message?.slice(0, 200)}.`,
+                })
+            }
+        } catch (Err) {
+            console.error(Err)
+            await Interaction.editReply({ content: "⏱️ Interaction failed.", components: [] })
         }
-    } catch {
-        await Interaction.editReply({ content: "⏱️ Interaction timed out.", components: [] })
-    }
+    })
+
+    Collector.on("end", async (collected) => {
+        if (collected.size === 0) {
+            try {
+                await Interaction.editReply({
+                    content: "⌛ Confirmation timed out. Please run the command again.",
+                    components: [],
+                })
+            } catch {}
+        }
+    })
 })
 
 DiscordClient.login(process.env.DISCORD_TOKEN)

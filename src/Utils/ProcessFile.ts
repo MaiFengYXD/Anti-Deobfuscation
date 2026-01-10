@@ -60,7 +60,13 @@ async function ExecFileAsync(Command: string, Args: string[]) {
 
 export const QueueCooldown = IsLuaJITExist ? 0 : 1
 
-export async function ProcessFile(AttachmentUrl: string, FileName: string) {
+export async function ProcessFile(
+    AttachmentUrl: string,
+    FileName: string,
+    EditReply: (Content: string) => Promise<void>,
+) {
+    EditReply("⏳ Fetching your script...")
+
     const FileResponse = await fetch(AttachmentUrl)
     const RawContent = await FileResponse.text()
 
@@ -73,6 +79,8 @@ export async function ProcessFile(AttachmentUrl: string, FileName: string) {
         let UsingFilePath
 
         if (IsDarkluaExist && RawContent.length > 50_000) {
+            EditReply("⏳ Minifying script...")
+
             await writeFile(TempFilePath, RawContent)
             await ExecFileAsync("darklua", [
                 "process",
@@ -86,6 +94,8 @@ export async function ProcessFile(AttachmentUrl: string, FileName: string) {
         }
 
         if (IsLuaJITExist) {
+            EditReply("⏳ Obfuscating script...")
+
             if (!UsingFilePath) {
                 await writeFile(TempFilePath, RawContent)
                 UsingFilePath = TempFilePath
@@ -103,6 +113,8 @@ export async function ProcessFile(AttachmentUrl: string, FileName: string) {
 
             ProcessedContent = await readFile(PrometheusOutputTempFilePath, "utf-8")
         } else {
+            EditReply("⏳ Interacting with Obfuscation API...")
+
             const Response = await fetch("https://wearedevs.net/api/obfuscate", {
                 method: "POST",
                 headers: {
