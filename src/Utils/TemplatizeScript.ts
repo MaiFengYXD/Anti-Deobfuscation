@@ -1,5 +1,5 @@
 import { Templates } from "../Templates/index.ts"
-import { RandomVariableName } from "./Random.ts"
+import { RandomInteger, RandomVariableName } from "./Random.ts"
 
 const Replacements = {
     "SCRIPT_SOURCE()": (Source: string) => Source.trim(),
@@ -7,7 +7,7 @@ const Replacements = {
 }
 
 export function TemplatizeScript(Source: string) {
-    let UsingTemplate = Templates[Math.floor(Math.random() * Templates.length)]
+    let UsingTemplate = Templates[RandomInteger(0, Templates.length - 1)]
     for (const [Key, Value] of Object.entries(Replacements)) {
         UsingTemplate = UsingTemplate.replaceAll(Key, Value(Source))
     }

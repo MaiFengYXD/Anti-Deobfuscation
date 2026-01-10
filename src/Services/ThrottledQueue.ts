@@ -1,6 +1,11 @@
 import { setTimeout } from "node:timers/promises"
 
-type QueueItem = [Resolve: (value: any) => void, TaskFunction: (...Args: any[]) => any, Args: any[]]
+type QueueItem = [
+    Resolve: (Value: any) => void,
+    Reject: (Reason?: any) => void,
+    TaskFunction: (...Args: any[]) => any,
+    Args: any[],
+]
 
 export class ThrottledQueue {
     public Cooldown: number
@@ -13,11 +18,11 @@ export class ThrottledQueue {
     }
 
     private async ExecuteTask(Task: QueueItem) {
-        const [Resolve, TaskFunction, Args] = Task
+        const [Resolve, Reject, TaskFunction, Args] = Task
         try {
             Resolve(await TaskFunction(...Args))
-        } catch {
-            Resolve(undefined)
+        } catch (Error) {
+            Reject(Error)
         }
     }
 
@@ -43,9 +48,9 @@ export class ThrottledQueue {
 
     public async Enqueue<T>(TaskFunction: (...Args: any[]) => T | Promise<T>, ...Args: any[]): Promise<T> {
         if (this.IsProcessing) {
-            const { promise, resolve } = Promise.withResolvers<T>()
+            const { promise, resolve, reject } = Promise.withResolvers<T>()
 
-            this.PendingTasks[this.QueueIndex] = [resolve, TaskFunction, Args]
+            this.PendingTasks[this.QueueIndex] = [resolve, reject, TaskFunction, Args]
             this.QueueIndex++
 
             return await promise

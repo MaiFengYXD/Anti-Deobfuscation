@@ -9,7 +9,7 @@ This is a Luau script obfuscation bot built for **educational purposes only**. U
 > [!IMPORTANT]
 > Detection templates are required to protect against deobfuscation.
 >
-> You need to fill the `src/Templates` folder with your own detection template `.luau` files. I do not provide any detections, which prevents them from being patched within minutes.
+> You need to fill the `src/Templates` folder with your own detection template `.luau` files. ~~I do not provide any detections, which prevents them from being patched within minutes.~~ I lied, use `/protect` in our Discord channel. 😜
 > 
 > The following built-in macros are supported within the template:
 >
