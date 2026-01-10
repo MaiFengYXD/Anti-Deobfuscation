@@ -47,7 +47,7 @@ DiscordClient.on(Events.InteractionCreate, async (Interaction) => {
     const Attachment = Interaction.options.getAttachment("file")!
 
     const Row = new ActionRowBuilder<ButtonBuilder>().addComponents(
-        new ButtonBuilder().setCustomId("confirm_obfuscate").setLabel("Agree & Proceed").setStyle(ButtonStyle.Success),
+        new ButtonBuilder().setCustomId("agree_proceed").setLabel("Agree & Proceed").setStyle(ButtonStyle.Success),
     )
 
     const Response = await Interaction.reply({
@@ -62,7 +62,7 @@ DiscordClient.on(Events.InteractionCreate, async (Interaction) => {
     })
 
     Collector.on("collect", async (ButtonInteraction) => {
-        if (ButtonInteraction.customId !== "confirm_obfuscate") return
+        if (ButtonInteraction.customId !== "agree_proceed") return
 
         try {
             await ButtonInteraction.update({
@@ -93,20 +93,18 @@ DiscordClient.on(Events.InteractionCreate, async (Interaction) => {
                     content: `❌ Error: ${ProcessError.message?.slice(0, 200)}.`,
                 })
             }
-        } catch (Err) {
-            console.error(Err)
+        } catch (Error) {
+            console.error(Error)
             await Interaction.editReply({ content: "⏱️ Interaction failed.", components: [] })
         }
     })
 
-    Collector.on("end", async (collected) => {
-        if (collected.size === 0) {
-            try {
-                await Interaction.editReply({
-                    content: "⌛ Confirmation timed out. Please run the command again.",
-                    components: [],
-                })
-            } catch {}
+    Collector.on("end", async (Collected) => {
+        if (Collected.size === 0) {
+            await Interaction.editReply({
+                content: "⌛ Confirmation timed out. Please run the command again.",
+                components: [],
+            })
         }
     })
 })
