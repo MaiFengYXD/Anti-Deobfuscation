@@ -7,9 +7,9 @@ A mirror for my local project.
 This is a Luau script obfuscation bot built for **educational purposes only**. Uses the amazing [Prometheus](https://github.com/prometheus-lua/Prometheus) obfuscator.
 
 > [!IMPORTANT]
-> Detection templates are required to protect against deobfuscation.
+> Protection templates are required to protect against deobfuscation.
 >
-> You need to fill the `src/Templates` folder with your own detection template `.luau` files. ~~I do not provide any detections, which prevents them from being patched within minutes.~~ I lied, use `/protect` in our Discord channel. 😜
+> You need to fill the `src/Templates` folder with your own protection template `.luau` files. ~~I do not provide any protections, which prevents them from being patched within minutes.~~ I lied, use `/protect` in our Discord channel. 😜
 > 
 > The following built-in macros are supported within the template:
 >

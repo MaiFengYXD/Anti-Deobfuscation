@@ -8,11 +8,11 @@ const DiscordClient = new Client({ intents: [GatewayIntentBits.Guilds] })
 const Commands = [
     new SlashCommandBuilder()
         .setName("safe_obfuscate")
-        .setDescription("Securely obfuscate your script with Prometheus (against the UnveilR V2 deobfuscation)")
+        .setDescription("Protect and obfuscate your script with Prometheus (against deobfuscations)")
         .addAttachmentOption((Option) => Option.setName("file").setDescription("The script file").setRequired(true)),
     new SlashCommandBuilder()
         .setName("protect")
-        .setDescription("Use a random working detection template to protect your script from being deobfuscated")
+        .setDescription("Use a random working protection template to protect your script from being deobfuscated")
         .addAttachmentOption((Option) => Option.setName("file").setDescription("The script file").setRequired(true)),
 ].map((Command) => Command.toJSON())
 
