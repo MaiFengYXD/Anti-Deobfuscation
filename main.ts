@@ -23,7 +23,7 @@ const DiscordClient = new Client({ intents: [GatewayIntentBits.Guilds] })
 const Commands = [
     new SlashCommandBuilder()
         .setName("safe_obfuscate")
-        .setDescription("Securely obfuscate your Lua script with Prometheus (bypass the UnveilR V2 deobfuscation)")
+        .setDescription("Securely obfuscate your Lua script with Prometheus (against the UnveilR V2 deobfuscation)")
         .addAttachmentOption((Option) => Option.setName("file").setDescription("The script file").setRequired(true)),
 ].map((Command) => Command.toJSON())
 
