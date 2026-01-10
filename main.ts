@@ -20,14 +20,14 @@ const Throttler = new ThrottledQueue(QueueCooldown)
 
 const Disclaimer =
 `### ⚖️ Disclaimer
-This bot is provided for **educational purposes only**. You can review the tool's source code at https://github.com/MaiFengYXD/Anti-UnveilR-V2.
+This bot is provided for **educational purposes only**. You can review the bot's source code at https://github.com/MaiFengYXD/Anti-UnveilR-V2.
 
 We value your privacy: we **never** store any scripts sent to this service.
 
-The detection templates used could be patched at any time; therefore, use this tool **at your own risk**.
+The detection templates used could be patched at any time; therefore, use this bot **at your own risk**.
 
 ### 📜 NOTE
-If you already have a premium obfuscator (e.g. Luraph), this tool is unnecessary, as those services already effectively prevent UnveilR V2 deobfuscation. This tool specifically utilizes Prometheus for its protection.`
+If you already have a premium obfuscator (e.g. Luraph), this bot is unnecessary, as those services already effectively prevent UnveilR V2 deobfuscation. This bot specifically utilizes Prometheus for its protection.`
 
 const DiscordClient = new Client({ intents: [GatewayIntentBits.Guilds] })
 
