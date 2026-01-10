@@ -121,7 +121,7 @@ export async function ProcessFile(
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    script: ProcessedContent,
+                    script: ProcessedContent || RawContent,
                 }),
             })
 
